@@ -1,0 +1,180 @@
+[4/6/2026 7:35 PM] Ahmed dwydar: rowjip-fudJys-7katry
+[4/6/2026 7:47 PM] Ahmed dwydar: <!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>أسعار السيارات</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f4f4f4;
+    direction: rtl;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.cars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin: 10px;
+}
+
+.card p {
+    margin: 10px;
+}
+
+.price {
+    color: green;
+    font-weight: bold;
+}
+
+footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚗 أسعار السيارات في مصر</h1>
+</header>
+
+<div class="container">
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="ابحث عن سيارة...">
+        
+        <select id="priceFilter">
+            <option value="all">كل الأسعار</option>
+            <option value="low">أقل من 1,000,000</option>
+            <option value="high">أكثر من 1,000,000</option>
+        </select>
+    </div>
+
+    <div class="cars" id="carsContainer"></div>
+
+</div>
+
+<footer>
+    <p>© 2026 موقع السيارات</p>
+</footer>
+
+<script>
+const cars = [
+    {
+        name: "تويوتا كورولا",
+        price: 1200000,
+        image: "https://images.unsplash.com/photo-1549924231-f129b911e442"
+    },
+    {
+        name: "هيونداي إلنترا",
+        price: 950000,
+        image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d"
+    },
+    {
+        name: "كيا سبورتاج",
+        price: 1600000,
+        image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2"
+    },
+    {
+        name: "نيسان صني",
+        price: 700000,
+        image: "https://images.unsplash.com/photo-1550355291-bbee04a92027"
+    }
+];
+
+const container = document.getElementById("carsContainer");
+const searchInput = document.getElementById("search");
+const priceFilter = document.getElementById("priceFilter");
+
+function displayCars(list) {
+    container.innerHTML = "";
+    list.forEach(car => {
+        container.innerHTML += `
+        <div class="card">
+            <img src="${car.image}">
+            <h3>${car.name}</h3>
+            <p class="price">${car.price.toLocaleString()} جنيه</p>
+        </div>
+        `;
+    });
+}
+
+function filterCars() {
+    let text = searchInput.value.toLowerCase();
+    let price = priceFilter.value;
+
+    let filtered = cars.filter(car => {
+        let matchText = car.name.toLowerCase().includes(text);
+        let matchPrice = true;
+
+        if(price === "low") matchPrice = car.price < 1000000;
+        if(price === "high") matchPrice = car.price >= 1000000;
+
+        return matchText && matchPrice;
+    });
+
+    displayCars(filtered);
+}
+
+searchInput.addEventListener("input", filterCars);
+priceFilter.addEventListener("change", filterCars);
+
+displayCars(cars);
+</script>
+
+</body>
+</html>
